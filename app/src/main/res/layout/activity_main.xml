@@ -6,6 +6,9 @@
     <variable
         name="mainActivity"
         type="sas.gasolinometro.MainActivity" />
+    <variable
+        name="textVariable"
+        type="String" />
 </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,7 +19,7 @@
             android:id="@+id/text_def"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="@{mainActivity.textMessage}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

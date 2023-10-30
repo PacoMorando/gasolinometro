@@ -15,12 +15,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        this.binding.setMainActivity(this);
         setContentView(binding.getRoot());
-        //this.textMessage = getResources().getDisplayMetrics().toString() + getResources() + " DATA BINDING";
-        binding.textDef.setText(getResources().getDisplayMetrics().toString() + getResources());/**/
     }
 
-    public String getMessage(){
-        return "Mensaje de funcion";
-    }
 }

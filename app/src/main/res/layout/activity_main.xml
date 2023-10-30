@@ -2,28 +2,61 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-<data>
-    <variable
-        name="mainActivity"
-        type="sas.gasolinometro.MainActivity" />
-    <variable
-        name="textVariable"
-        type="String" />
-</data>
+
+    <data>
+
+        <variable
+            name="mainActivity"
+            type="sas.gasolinometro.MainActivity" />
+
+        <variable
+            name="textVariable"
+            type="String" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <TextView
-            android:id="@+id/text_def"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/fuel_loaded"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@{mainActivity.textMessage}"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="20dp"
+            android:hint="@string/fuel_loaded_hint"
+            android:inputType="number|numberDecimal"
+            android:maxLines="1"
+            android:nextFocusDown="@+id/distance"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/distance"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <!--<requestFocus />-->
+
+        </androidx.appcompat.widget.AppCompatEditText>
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:hint="@string/distance_hint"
+            android:inputType="number|numberDecimal"
+            android:maxLines="1"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/fuel_loaded" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

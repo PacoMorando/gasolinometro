@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Gasolinometro</string>
     <string name="fuel_loaded_hint">Fuel loaded</string>
     <string name="distance_hint">Kilometers</string>
 </resources>

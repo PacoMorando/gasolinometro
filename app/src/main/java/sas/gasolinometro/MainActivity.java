@@ -3,6 +3,7 @@ package sas.gasolinometro;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -22,22 +23,33 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setDataBinding();
+        this.setInputManager();
+        this.setContentView(binding.getRoot());
+        ConsumptionRegistryRecyclerAdapter consumptionRegistryRecyclerAdapter = new ConsumptionRegistryRecyclerAdapter();
+        this.binding.consumptionRegistryResView.setLayoutManager(new LinearLayoutManager(this));
+        this.binding.consumptionRegistryResView.setAdapter(consumptionRegistryRecyclerAdapter);
+
+    }
+
+    private void setInputManager() {
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    }
+
+    private void setDataBinding() {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         this.binding.setMainActivity(this);
-        setContentView(binding.getRoot());
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         binding.fuelLoaded.requestFocus();
-
-        imm.showSoftInput(binding.fuelLoaded, InputMethodManager.SHOW_FORCED);
-        //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        System.out.println("ON CREATE");
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("ON RESUME");
+
+
+    }
+
+    public void showInput() {
         //imm.showSoftInput(binding.fuelLoaded, InputMethodManager.SHOW_IMPLICIT);
         //imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
         //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);

@@ -12,20 +12,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<ConsumptionRegistryRecyclerAdapter.ViewHolder> {
-
+    protected float lastVehicleKms = 0.0f;
     private final ArrayList<ConsumptionRegister> consumptionRegistries = new ArrayList<>();
 
     public ConsumptionRegistryRecyclerAdapter() {
-        this.consumptionRegistries.add(new ConsumptionRegister(9.097f, 39000f));
-        this.consumptionRegistries.add(new ConsumptionRegister(8.087f, 38000f));
-        this.consumptionRegistries.add(new ConsumptionRegister(8.077f, 36000f));
-        this.consumptionRegistries.add(new ConsumptionRegister(8.087f, 35000f));
-        this.consumptionRegistries.add(new ConsumptionRegister(8.067f, 34000f));
-        this.consumptionRegistries.add(new ConsumptionRegister(8.057f, 33000f));
-        this.consumptionRegistries.add(new ConsumptionRegister(8.047f, 32000f));
-        this.consumptionRegistries.add(new ConsumptionRegister(8.037f, 31000f));
-        this.consumptionRegistries.add(new ConsumptionRegister(8.017f, 30000f));
-        this.consumptionRegistries.add(new ConsumptionRegister(8.007f, 30800f));
+        this.consumptionRegistries.add(new ConsumptionRegister(9.097f, 250.2f, lastVehicleKms));
+        this.lastVehicleKms = 250.2f;
+        this.consumptionRegistries.add(new ConsumptionRegister(8.087f, 501.2f, lastVehicleKms));
+        this.lastVehicleKms = 501.2f;
+        this.consumptionRegistries.add(new ConsumptionRegister(8.187f, 788.2f, lastVehicleKms));
+        this.lastVehicleKms = 788.2f;
+        this.consumptionRegistries.add(new ConsumptionRegister(8.287f, 1050.2f, lastVehicleKms));
+        this.lastVehicleKms = 1050.2f;
+        this.consumptionRegistries.add(new ConsumptionRegister(8.387f, 1305.2f, lastVehicleKms));
+        this.lastVehicleKms = 1305.2f;
     }
 
     @NonNull
@@ -37,7 +37,7 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
 
     @Override
     public void onBindViewHolder(@NonNull ConsumptionRegistryRecyclerAdapter.ViewHolder holder, int position) {
-        holder.setViewHolder(this.consumptionRegistries.get(position));
+        holder.setViewHolder(this.consumptionRegistries.get(position), this.lastVehicleKms);
     }
 
     @Override
@@ -46,24 +46,10 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        /* private TextView vehicleKms;
-         private TextView registerDate;
-         private TextView registerHour;
-         private TextView consumption;
-         private TextView lastLoad;
-         private TextView kmsTraveled;*/
         private HashMap<String, TextView> registryData;
-        //private ArrayList<TextView> registerData;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-           /* this.registerData = new ArrayList<>();
-            this.registerData.add(itemView.findViewById(R.id.vehicle_kms));
-            this.registerData.add(itemView.findViewById(R.id.register_date));
-            this.registerData.add(itemView.findViewById(R.id.register_hour));
-            this.registerData.add(itemView.findViewById(R.id.consumption));
-            this.registerData.add(itemView.findViewById(R.id.last_load));
-            this.registerData.add(itemView.findViewById(R.id.kms_traveled));*/
 
             this.registryData = new HashMap<>();
             this.registryData.put("lastLoad", itemView.findViewById(R.id.last_load));
@@ -74,9 +60,9 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
             this.registryData.put("kmsTraveled", itemView.findViewById(R.id.kms_traveled));
         }
 
-        public void setViewHolder(ConsumptionRegister consumptionRegister) {
+        public void setViewHolder(ConsumptionRegister consumptionRegister, float lastVehicleKms) {
             this.registryData.get("lastLoad").setText(consumptionRegister.getLastLoad());
-            this.registryData.get("vehicleKms").setText(consumptionRegister.getVehicleKms());
+            this.registryData.get("vehicleKms").setText(consumptionRegister.getCurrentVehicleKms());
             this.registryData.get("registerDate").setText(consumptionRegister.getRegisterDate());
             this.registryData.get("registerHour").setText(consumptionRegister.getRegisterHour());
             this.registryData.get("consumption").setText(consumptionRegister.getConsumption());

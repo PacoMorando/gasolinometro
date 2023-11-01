@@ -1,13 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/consumption_item"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="180dp"
+    android:orientation="vertical">
+
 
     <TextView
-        android:id="@+id/consumption_item"
+        android:id="@+id/vehicle_kms"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Consumption Register"/>
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:text="Total: 36,600 kms"
+        android:textSize="@dimen/info_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/register_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:text="31/10/2023"
+        android:textSize="@dimen/info_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/register_hour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:text="lun 11:25:15"
+        android:textSize="@dimen/details_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/register_date" />
+
+    <TextView
+        android:id="@+id/consumption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="26.88"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/consumption_format"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text=" Kms/Lts"
+        android:textSize="@dimen/info_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/consumption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/consumption" />
+
+    <TextView
+        android:id="@+id/load_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="last load:"
+        android:textSize="@dimen/details_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/last_load"
+        app:layout_constraintStart_toStartOf="@+id/last_load" />
+
+    <TextView
+        android:id="@+id/last_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="20dp"
+        android:text="9.057 L."
+        android:textSize="@dimen/data_regis"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/kms_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="last load:"
+        android:textSize="@dimen/details_text_size"
+        app:layout_constraintBottom_toTopOf="@+id/kms_traveled"
+        app:layout_constraintStart_toStartOf="@+id/kms_traveled" />
+
+    <TextView
+        android:id="@+id/kms_traveled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="20dp"
+        android:text="250.55Kms"
+        android:textSize="@dimen/data_regis"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

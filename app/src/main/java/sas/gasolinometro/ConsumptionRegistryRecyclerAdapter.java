@@ -8,8 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<ConsumptionRegistryRecyclerAdapter.ViewHolder> {
     private final ArrayList<ConsumptionRegister> consumptionRegistries;
@@ -51,12 +54,42 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
         }
 
         public void setViewHolder(ConsumptionRegister consumptionRegister) {
-            this.registryData.get("lastLoad").setText(consumptionRegister.getLastLoad());
-            this.registryData.get("vehicleKms").setText(consumptionRegister.getCurrentVehicleKms());
-            this.registryData.get("registerDate").setText(consumptionRegister.getRegisterDate());
-            this.registryData.get("registerHour").setText(consumptionRegister.getRegisterHour());
-            this.registryData.get("consumption").setText(consumptionRegister.getConsumption());
-            this.registryData.get("kmsTraveled").setText(consumptionRegister.getKmsTraveled());
+            this.registryData.get("lastLoad").setText(this.getGasLoadedText(consumptionRegister.getGasLoaded()));
+            this.registryData.get("vehicleKms").setText(this.getCurrentVehicleKmsText(consumptionRegister.getCurrentVehicleKms()));
+            this.registryData.get("registerDate").setText(this.getRegisterDateText(consumptionRegister.getDate()));
+            this.registryData.get("registerHour").setText(this.getRegisterHourText(consumptionRegister.getDate()));
+            this.registryData.get("consumption").setText(this.getConsumptionText(consumptionRegister.getConsumption()));
+            this.registryData.get("kmsTraveled").setText(this.getKmsTraveledText(consumptionRegister.getKmsTraveled()));
+        }
+
+        private String getGasLoadedText(float gasLoaded) {
+            return gasLoaded + "lts.";
+        }
+
+        private String getCurrentVehicleKmsText(float consumptionRegister) {
+            return "Total: " + consumptionRegister + " kms";
+        }
+
+        private String getRegisterDateText(Date date) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
+            String formattedDate = dateFormat.format(date);
+            System.out.println("Fecha: " + formattedDate);
+            return formattedDate;
+        }
+
+        private String getRegisterHourText(Date date) {
+            SimpleDateFormat timeFormat = new SimpleDateFormat("E hh:mm a", new Locale("es", "ES"));
+            String formattedTime = timeFormat.format(date);
+            System.out.println("Hora: " + formattedTime);
+            return formattedTime;
+        }
+
+        private String getConsumptionText(float consumption) {
+            return String.valueOf((float) Math.round(consumption * 1000) / 1000);
+        }
+
+        private String getKmsTraveledText(float kmsTraveled) {
+            return String.valueOf((float) Math.round((kmsTraveled) * 100) / 100);
         }
     }
 }

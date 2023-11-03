@@ -1,42 +1,55 @@
 package sas.gasolinometro;
 
-public class ConsumptionRegister {
-    private float lastLoad;
-    private float lastVehicleKms;
-    private float currentVehicleKms;
-    private String registerDate;
-    private String registerHour;
-    private float consumption;
-    private float kmsTraveled;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-    public ConsumptionRegister(float lastLoad, float currentVehicleKms, float lastVehicleKms) {
+public class ConsumptionRegister {
+    private final float lastLoad;
+   // private final float lastVehicleKms;
+
+    private final float kmsTraveled;
+    private final float currentVehicleKms;
+    private final float consumption;
+    private final Date date;
+
+    public ConsumptionRegister(float lastLoad, float currentVehicleKms, float previousVehicleKms) { //TODO A ESTE LE VOY A PASAR EL DTO
+        this.date = new Date();
         this.lastLoad = lastLoad;
-        this.lastVehicleKms = lastVehicleKms;
+        //this.lastVehicleKms = lastVehicleKms;
         this.currentVehicleKms = currentVehicleKms;
-        this.consumption = (this.currentVehicleKms - this.lastVehicleKms) / this.lastLoad;
+        this.kmsTraveled = this.currentVehicleKms - previousVehicleKms;
+        this.consumption = (this.currentVehicleKms - previousVehicleKms) / this.lastLoad;
     }
 
     public String getLastLoad() {
-        return String.valueOf(this.lastLoad);
+        return this.lastLoad + "lts.";
     }
 
     public String getCurrentVehicleKms() {
-        return "Total: " + String.valueOf(this.currentVehicleKms) + " kms";
+        return "Total: " + this.currentVehicleKms + " kms";
     }
 
     public String getRegisterDate() {
-        return "31/10/2023";//TODO fatla programar
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
+        String formattedDate = dateFormat.format(this.date);
+        System.out.println("Fecha: " + formattedDate);
+        return formattedDate;//TODO fatla programar
     }
 
     public String getRegisterHour() {
-        return "lun 07:04 p.m."; //TODO falta programar
+        SimpleDateFormat timeFormat = new SimpleDateFormat("E hh:mm a", new Locale("es", "ES"));
+        String formattedTime = timeFormat.format(this.date);
+        System.out.println("Hora: " + formattedTime);
+        return formattedTime;
     }
 
     public String getConsumption() {
-        return String.valueOf(this.consumption);
+        return String.valueOf((float) Math.round(this.consumption * 1000) / 1000);
     }
 
     public String getKmsTraveled() {
-        return String.valueOf(this.currentVehicleKms - this.lastVehicleKms);
+        return String.valueOf((float) Math.round((this.kmsTraveled) * 100) / 100);
+        //return String.valueOf((float) Math.round((this.currentVehicleKms - this.lastVehicleKms) * 100) / 100);
     }
 }

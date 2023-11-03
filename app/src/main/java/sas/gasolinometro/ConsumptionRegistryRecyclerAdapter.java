@@ -12,20 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<ConsumptionRegistryRecyclerAdapter.ViewHolder> {
-    protected float lastVehicleKms = 0.0f;
-    private final ArrayList<ConsumptionRegister> consumptionRegistries = new ArrayList<>();
+    private final ArrayList<ConsumptionRegister> consumptionRegistries;
 
-    public ConsumptionRegistryRecyclerAdapter() {
-        this.consumptionRegistries.add(new ConsumptionRegister(9.097f, 250.2f, lastVehicleKms));
-        this.lastVehicleKms = 250.2f;
-        this.consumptionRegistries.add(new ConsumptionRegister(8.087f, 501.2f, lastVehicleKms));
-        this.lastVehicleKms = 501.2f;
-        this.consumptionRegistries.add(new ConsumptionRegister(8.187f, 788.2f, lastVehicleKms));
-        this.lastVehicleKms = 788.2f;
-        this.consumptionRegistries.add(new ConsumptionRegister(8.287f, 1050.2f, lastVehicleKms));
-        this.lastVehicleKms = 1050.2f;
-        this.consumptionRegistries.add(new ConsumptionRegister(8.387f, 1305.2f, lastVehicleKms));
-        this.lastVehicleKms = 1305.2f;
+    public ConsumptionRegistryRecyclerAdapter(ArrayList<ConsumptionRegister> consumptionRegistries) {
+        this.consumptionRegistries = consumptionRegistries;
     }
 
     @NonNull
@@ -37,7 +27,7 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
 
     @Override
     public void onBindViewHolder(@NonNull ConsumptionRegistryRecyclerAdapter.ViewHolder holder, int position) {
-        holder.setViewHolder(this.consumptionRegistries.get(position), this.lastVehicleKms);
+        holder.setViewHolder(this.consumptionRegistries.get(position));
     }
 
     @Override
@@ -46,7 +36,7 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private HashMap<String, TextView> registryData;
+        private final HashMap<String, TextView> registryData;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,7 +50,7 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
             this.registryData.put("kmsTraveled", itemView.findViewById(R.id.kms_traveled));
         }
 
-        public void setViewHolder(ConsumptionRegister consumptionRegister, float lastVehicleKms) {
+        public void setViewHolder(ConsumptionRegister consumptionRegister) {
             this.registryData.get("lastLoad").setText(consumptionRegister.getLastLoad());
             this.registryData.get("vehicleKms").setText(consumptionRegister.getCurrentVehicleKms());
             this.registryData.get("registerDate").setText(consumptionRegister.getRegisterDate());

@@ -4,50 +4,118 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
-@Entity
+@Entity(tableName = "consumption_register")
 public class ConsumptionRegister {
-    @PrimaryKey
-    public int id;
-    @ColumnInfo(name = "gas_loaded")
-    private final float gasLoaded;
-    @ColumnInfo(name = "previous_vehicle_kms")
-    public float previousVehicleKms;
-    @ColumnInfo(name = "current_vehicle_kms")
-    public float currentVehicleKms;
-    @ColumnInfo(name = "date")
-    public Date date;
-    private final float kmsTraveled;
-    private final float consumption;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
-    public ConsumptionRegister(float gasLoaded, float currentVehicleKms, float lastVehicleKms) {
-        this.date = new Date();
+    @ColumnInfo(name = "gas_loaded")
+    private float gasLoaded;
+    @ColumnInfo(name = "previous_vehicle_kms")
+    private float previousVehicleKms;
+
+    @ColumnInfo(name = "current_vehicle_kms")
+    private float currentVehicleKms;
+
+    @ColumnInfo(name = "date")
+    private Date date;
+    private float kmsTraveled;
+
+    private float consumption;
+
+    public ConsumptionRegister() {
+    }
+
+    private ConsumptionRegister(float gasLoaded, float currentVehicleKms, float previousVehicleKms) {
         this.gasLoaded = gasLoaded;
+        this.previousVehicleKms = previousVehicleKms;
         this.currentVehicleKms = currentVehicleKms;
-        this.kmsTraveled = this.currentVehicleKms - lastVehicleKms;
-        this.consumption = (this.currentVehicleKms - lastVehicleKms) / this.gasLoaded;
+        this.date = new Date();
+        this.kmsTraveled = this.currentVehicleKms - previousVehicleKms;
+        this.consumption = (this.currentVehicleKms - previousVehicleKms) / this.gasLoaded;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public float getGasLoaded() {
-        return this.gasLoaded;
+        return gasLoaded;
+    }
+
+    public void setGasLoaded(float gasLoaded) {
+        this.gasLoaded = gasLoaded;
+    }
+
+    public float getPreviousVehicleKms() {
+        return previousVehicleKms;
+    }
+
+    public void setPreviousVehicleKms(float previousVehicleKms) {
+        this.previousVehicleKms = previousVehicleKms;
     }
 
     public float getCurrentVehicleKms() {
-        return this.currentVehicleKms;
+        return currentVehicleKms;
     }
 
-    public float getConsumption() {
-        return this.consumption;
-    }
-
-    public float getKmsTraveled() {
-        return this.kmsTraveled;
+    public void setCurrentVehicleKms(float currentVehicleKms) {
+        this.currentVehicleKms = currentVehicleKms;
     }
 
     public Date getDate() {
-        return this.date;
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public float getKmsTraveled() {
+        return kmsTraveled;
+    }
+
+    public void setKmsTraveled(float kmsTraveled) {
+        this.kmsTraveled = kmsTraveled;
+    }
+
+    public float getConsumption() {
+        return consumption;
+    }
+
+    public void setConsumption(float consumption) {
+        this.consumption = consumption;
+    }
+
+    public static class Builder {
+
+        private float gasLoaded;
+        private float previousVehicleKms;
+        private float currentVehicleKms;
+
+        public Builder setGasLoaded(float gasLoaded) {
+            this.gasLoaded = gasLoaded;
+            return this;
+        }
+
+        public Builder setPreviousVehicleKms(float previousVehicleKms) {
+            this.previousVehicleKms = previousVehicleKms;
+            return this;
+        }
+
+        public Builder setCurrentVehicleKms(float currentVehicleKms) {
+            this.currentVehicleKms = currentVehicleKms;
+            return this;
+        }
+
+        public ConsumptionRegister build() {
+            return new ConsumptionRegister(this.gasLoaded, this.currentVehicleKms, this.previousVehicleKms);
+        }
     }
 }

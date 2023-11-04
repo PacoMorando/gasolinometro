@@ -46,5 +46,4 @@ dependencies {
     annotationProcessor("androidx.room:room-compiler:$room_version")
     testImplementation("androidx.room:room-testing:$room_version")
 
-
 }

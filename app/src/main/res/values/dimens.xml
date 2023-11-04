@@ -3,4 +3,6 @@
     <dimen name="info_text_size">13sp</dimen>
     <dimen name="details_text_size">11sp</dimen>
     <dimen name="data_regis">18sp</dimen>
+    <dimen name="vertical_margin_register">16dp</dimen>
+    <dimen name="horizontal_margin_register">16dp</dimen>
 </resources>

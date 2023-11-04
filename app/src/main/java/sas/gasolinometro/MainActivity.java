@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private void setDataBinding() {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         this.binding.setMainActivity(this);
-        binding.fuelLoaded.requestFocus();
+        //binding.fuelLoaded.requestFocus();
     }
 
     private void setInputManager() {

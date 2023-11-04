@@ -30,7 +30,7 @@
             android:orientation="horizontal"
             android:paddingBottom="20dp">
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <!--<androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/fuel_loaded"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,20 +42,45 @@
                 android:maxLines="1"
                 android:nextFocusDown="@+id/current_vehicleKms"
                 android:paddingTop="15dp"
-                android:paddingBottom="15dp" />
+                android:paddingBottom="15dp" />-->
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/current_vehicleKms"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fuel_loaded_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1"
+                android:hint="@string/fuel_loaded_hint">
+
+                <requestFocus />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fuel_loaded"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number|numberDecimal"
+                    android:maxLines="1"
+                    android:nextFocusDown="@+id/current_vehicleKms" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/current_vehicleKms_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
-                android:hint="@string/distance_hint"
-                android:inputType="number|numberDecimal"
-                android:maxLines="1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp" />
+                android:hint="@string/distance_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/current_vehicleKms"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:inputType="number|numberDecimal"
+                    android:maxLines="1" />
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
     </LinearLayout>
 

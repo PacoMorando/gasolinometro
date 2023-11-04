@@ -1,28 +1,20 @@
 package sas.gasolinometro;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
 
-@Entity(tableName = "consumption_register")
+@Entity(tableName = "consumption_registry")
 public class ConsumptionRegister {
     @PrimaryKey(autoGenerate = true)
     private int id;
-
-    @ColumnInfo(name = "gas_loaded")
     private float gasLoaded;
-    @ColumnInfo(name = "previous_vehicle_kms")
     private float previousVehicleKms;
-
-    @ColumnInfo(name = "current_vehicle_kms")
     private float currentVehicleKms;
-
-    @ColumnInfo(name = "date")
     private Date date;
     private float kmsTraveled;
-
     private float consumption;
 
     public ConsumptionRegister() {

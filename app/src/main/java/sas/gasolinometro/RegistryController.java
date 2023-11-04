@@ -12,7 +12,7 @@ public class RegistryController {
     private final ConsumptionRegistryDAO consumptionRegistryDAO;
 
     public RegistryController(Context applicationContext) {
-        AppDatabase dataBase = Room.databaseBuilder(applicationContext, AppDatabase.class, "consumption-registry").allowMainThreadQueries().build();
+        AppDatabase dataBase = Room.databaseBuilder(applicationContext, AppDatabase.class, "gasolinometro").allowMainThreadQueries().build();
         this.consumptionRegistryDAO = dataBase.consumptionRegistryDAO();
         this.consumptionRegistries = (ArrayList<ConsumptionRegister>) this.consumptionRegistryDAO.getAll();
     }

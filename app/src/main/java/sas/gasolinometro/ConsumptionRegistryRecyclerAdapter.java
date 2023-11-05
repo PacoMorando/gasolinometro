@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -67,7 +68,7 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
         }
 
         private String getCurrentVehicleKmsText(float consumptionRegister) {
-            return "Total: " + consumptionRegister + " kms";
+            return "Total: " + consumptionRegister + " km";
         }
 
         private String getRegisterDateText(Date date) {

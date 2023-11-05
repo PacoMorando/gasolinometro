@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/horizontal_margin_register"
             android:layout_marginTop="@dimen/vertical_margin_register"
-            android:text="Total: 36,600 kms"
+            android:text="Total: 36,600 km"
             android:textSize="@dimen/info_text_size"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/vertical_margin_register"
-            android:text="kms traveled:"
+            android:text="traveled:"
             android:textSize="@dimen/details_text_size"
             app:layout_constraintBottom_toTopOf="@+id/kms_traveled"
             app:layout_constraintEnd_toEndOf="parent" />

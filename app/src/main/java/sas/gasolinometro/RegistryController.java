@@ -47,7 +47,7 @@ public class RegistryController {
         return consumptionRegistries;
     }
 
-    public void setPreviousVehicleKms(Float valueOf) {
-        //TODO ME QUEDE
+    public void setPreviousVehicleKms(Float previousVehicleKms) {
+        this.previousVehicleKms = previousVehicleKms;
     }
 }

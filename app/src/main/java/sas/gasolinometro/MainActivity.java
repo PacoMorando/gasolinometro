@@ -18,27 +18,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.setDataBinding();
         this.setContentView(binding.getRoot());
-        RegistryView registryView = new RegistryView(binding, getApplicationContext());
-        registryView.setConsumptionRegistryResView();
+        new RegistryView(binding);
+        /*RegistryView registryView = new RegistryView(binding);
+        registryView.setConsumptionRegistryResView();*/
         this.setInputManager();
-        //this.setConsumptionRegistryResView();
     }
 
 
     private void setDataBinding() {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         this.binding.setMainActivity(this);
-        //binding.fuelLoaded.requestFocus();
     }
 
     private void setInputManager() {
-        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-    }
-
-    private void setConsumptionRegistryResView() {
-        //this.registerView.setConsumptionRegistryResView();
-        /*this.binding.consumptionRegistryResView.setLayoutManager(new LinearLayoutManager(this));
-        this.binding.consumptionRegistryResView.setAdapter(this.registerView.getConsumptionRegistryRecyclerAdapter());*/
+        this.imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
     public void showInput() {

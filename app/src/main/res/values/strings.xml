@@ -4,4 +4,5 @@
     <string name="distance_hint">Kilometers</string>
     <string name="dialog_neutral">CANCEL</string>
     <string name="dialog_ok">OK</string>
+    <string name="length_unit">km</string>
 </resources>

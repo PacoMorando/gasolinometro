@@ -40,7 +40,7 @@ public class VehicleKmsDialog extends AppCompatDialogFragment {
     }
 
     private void setVehicleKms(String text) {
-        this.vehicleKms.setText("Vehicle kms = " + text + "km");
+        this.vehicleKms.setText(text + getString(R.string.length_unit));
         this.registryController.setPreviousVehicleKms(Float.valueOf(text));
     }
 }

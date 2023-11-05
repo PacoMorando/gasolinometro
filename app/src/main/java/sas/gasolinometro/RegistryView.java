@@ -1,6 +1,8 @@
 package sas.gasolinometro;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,13 +18,20 @@ public class RegistryView {
     private final ConsumptionRegistryRecyclerAdapter consumptionRegistryRecyclerAdapter;
 
 
-
     public RegistryView(ActivityMainBinding binding, Context applicationContext) {
         this.registryController = new RegistryController(applicationContext);
         this.consumptionRegistryRecyclerAdapter = new ConsumptionRegistryRecyclerAdapter(this.registryController.getConsumptionRegistries());
         this.binding = binding;
         this.applicationContext = applicationContext;
         this.setForm();
+        this.setVehicleKms();
+    }
+
+    private void setVehicleKms() {
+        this.binding.vehicleKms.setText("Vehicle kms = " + this.registryController.getPreviousVehicleKms() + "km");
+        this.binding.vehicleKms.setOnClickListener(
+                view -> new VehicleKmsDialog(this.binding.vehicleKms, this.registryController).show(binding.getMainActivity().getSupportFragmentManager(), "setVehicleKms")
+        );
     }
 
     private void setForm() {

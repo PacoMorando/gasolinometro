@@ -13,4 +13,7 @@ public interface ConsumptionRegistryDAO {
     @Insert
     void insert(ConsumptionRegister consumptionRegister);
 
+    @Query("SELECT * FROM consumption_registry ORDER BY date DESC LIMIT 1")
+    ConsumptionRegister getLatestUser();
+
 }

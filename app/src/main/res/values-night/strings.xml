@@ -2,4 +2,6 @@
 <resources>
     <string name="fuel_loaded_hint">Fuel loaded</string>
     <string name="distance_hint">Kilometers</string>
+    <string name="dialog_neutral">CANCEL</string>
+    <string name="dialog_ok">OK</string>
 </resources>

@@ -16,6 +16,14 @@
         android:orientation="vertical"
         tools:context=".MainActivity">
 
+        <TextView
+            android:id="@+id/vehicle_kms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Vehicle kms = 0.0km"
+            android:textSize="@dimen/data_regis"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/consumption_registry_res_view"
             android:layout_width="match_parent"
@@ -29,20 +37,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingBottom="20dp">
-
-            <!--<androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/fuel_loaded"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="10dp"
-                android:layout_weight="1"
-                android:hint="@string/fuel_loaded_hint"
-                android:inputType="number|numberDecimal"
-                android:maxLines="1"
-                android:nextFocusDown="@+id/current_vehicleKms"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp" />-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fuel_loaded_layout"

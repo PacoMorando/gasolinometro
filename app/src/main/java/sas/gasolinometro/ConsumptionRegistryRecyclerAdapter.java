@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
@@ -14,12 +15,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<ConsumptionRegistryRecyclerAdapter.ViewHolder> {
-    private static RegistryController registryController;
+public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<ConsumptionRegistryRecyclerAdapter.ViewHolder> implements DeleteConfirmDialog.RegisterDeleter {
+    private final RegistryController registryController;
     private final ArrayList<ConsumptionRegister> consumptionRegistries;
 
     public ConsumptionRegistryRecyclerAdapter(RegistryController registryController) {
-        ConsumptionRegistryRecyclerAdapter.registryController = registryController;
+        this.registryController = registryController;
         this.consumptionRegistries = registryController.getConsumptionRegistries();
     }
 
@@ -34,9 +35,11 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
     public void onBindViewHolder(@NonNull ConsumptionRegistryRecyclerAdapter.ViewHolder holder, int position) {
         holder.setViewHolder(this.consumptionRegistries.get(position));
         holder.itemView.setOnLongClickListener(view -> {
-            registryController.deleteRegister(this.consumptionRegistries.get(position));
+            new DeleteConfirmDialog(this, holder).show(((AppCompatActivity) holder.itemView.getContext()).getSupportFragmentManager(), "Delete");
+            /*this.registryController.deleteRegister(this.consumptionRegistries.get(position));
             this.consumptionRegistries.remove(this.consumptionRegistries.get(position));
-            this.notifyDataSetChanged();
+            this.notifyDataSetChanged();*/
+
             return false;
         });
     }
@@ -44,6 +47,13 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
     @Override
     public int getItemCount() {
         return this.consumptionRegistries.size();
+    }
+
+    @Override
+    public void deleteRegister(int position) {
+        this.registryController.deleteRegister(this.consumptionRegistries.get(position));
+        this.consumptionRegistries.remove(this.consumptionRegistries.get(position));
+        this.notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -76,7 +86,7 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
         }
 
         private String getCurrentVehicleKmsText(float consumptionRegister) {
-            return "Total: " + consumptionRegister + " km";
+            return "Vehicle: " + consumptionRegister + " km";
         }
 
         private String getRegisterDateText(Date date) {
@@ -101,6 +111,18 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
 
         public int getRegisterId() {
             return registerId;
+        }
+
+        public CharSequence getDate() {
+            return this.registryData.get("registerDate").getText();
+        }
+
+        public CharSequence getConsumption() {
+            return this.registryData.get("consumption").getText();
+        }
+
+        public CharSequence getVehicleKms() {
+            return this.registryData.get("vehicleKms").getText();
         }
     }
 }

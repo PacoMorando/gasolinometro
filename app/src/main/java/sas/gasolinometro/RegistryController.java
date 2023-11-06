@@ -12,15 +12,17 @@ public class RegistryController {
     private final ConsumptionRegistryDAO consumptionRegistryDAO;
 
     public RegistryController(Context applicationContext) {
-        AppDatabase dataBase = Room.databaseBuilder(applicationContext, AppDatabase.class, "gasolinometro").allowMainThreadQueries().build();
+        AppDatabase dataBase = Room.databaseBuilder(applicationContext, AppDatabase.class, "gasolinometro.db")
+                .allowMainThreadQueries()
+                .build();
         this.consumptionRegistryDAO = dataBase.consumptionRegistryDAO();
         this.consumptionRegistries = (ArrayList<ConsumptionRegister>) this.consumptionRegistryDAO.getAll();
         this.setPreviousVehicleKms();
     }
 
     private void setPreviousVehicleKms() {
-        if (this.consumptionRegistryDAO.getLatestUser() != null) {
-            this.previousVehicleKms = this.consumptionRegistryDAO.getLatestUser().getCurrentVehicleKms();
+        if (this.consumptionRegistryDAO.getLatestRegister() != null) {
+            this.previousVehicleKms = this.consumptionRegistryDAO.getLatestRegister().getCurrentVehicleKms();
         } else {
             this.previousVehicleKms = 0.0f;
         }
@@ -32,8 +34,8 @@ public class RegistryController {
                 .setCurrentVehicleKms(currentVehicleKms)
                 .setPreviousVehicleKms(this.previousVehicleKms)
                 .build();
-        this.consumptionRegistries.add(0, consumptionRegister);
         this.consumptionRegistryDAO.insert(consumptionRegister);
+        this.consumptionRegistries.add(0, this.consumptionRegistryDAO.getLatestRegister());
         this.previousVehicleKms = currentVehicleKms;
     }
 
@@ -47,5 +49,9 @@ public class RegistryController {
 
     public void setPreviousVehicleKms(Float previousVehicleKms) {
         this.previousVehicleKms = previousVehicleKms;
+    }
+
+    public void deleteRegister(ConsumptionRegister consumptionRegister) {
+        this.consumptionRegistryDAO.deleteRegister(consumptionRegister);
     }
 }

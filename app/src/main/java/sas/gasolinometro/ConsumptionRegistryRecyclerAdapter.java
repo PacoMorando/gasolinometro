@@ -10,16 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<ConsumptionRegistryRecyclerAdapter.ViewHolder> {
+    private static RegistryController registryController;
     private final ArrayList<ConsumptionRegister> consumptionRegistries;
 
-    public ConsumptionRegistryRecyclerAdapter(ArrayList<ConsumptionRegister> consumptionRegistries) {
-        this.consumptionRegistries = consumptionRegistries;
+    public ConsumptionRegistryRecyclerAdapter(RegistryController registryController) {
+        ConsumptionRegistryRecyclerAdapter.registryController = registryController;
+        this.consumptionRegistries = registryController.getConsumptionRegistries();
     }
 
     @NonNull
@@ -32,6 +33,12 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
     @Override
     public void onBindViewHolder(@NonNull ConsumptionRegistryRecyclerAdapter.ViewHolder holder, int position) {
         holder.setViewHolder(this.consumptionRegistries.get(position));
+        holder.itemView.setOnLongClickListener(view -> {
+            registryController.deleteRegister(this.consumptionRegistries.get(position));
+            this.consumptionRegistries.remove(this.consumptionRegistries.get(position));
+            this.notifyDataSetChanged();
+            return false;
+        });
     }
 
     @Override
@@ -40,11 +47,11 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        private int registerId;
         private final HashMap<String, TextView> registryData;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             this.registryData = new HashMap<>();
             this.registryData.put("lastLoad", itemView.findViewById(R.id.last_load));
             this.registryData.put("vehicleKms", itemView.findViewById(R.id.vehicle_kms));
@@ -55,6 +62,7 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
         }
 
         public void setViewHolder(ConsumptionRegister consumptionRegister) {
+            this.registerId = consumptionRegister.getId();
             this.registryData.get("lastLoad").setText(this.getGasLoadedText(consumptionRegister.getGasLoaded()));
             this.registryData.get("vehicleKms").setText(this.getCurrentVehicleKmsText(consumptionRegister.getCurrentVehicleKms()));
             this.registryData.get("registerDate").setText(this.getRegisterDateText(consumptionRegister.getDate()));
@@ -74,14 +82,12 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
         private String getRegisterDateText(Date date) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
             String formattedDate = dateFormat.format(date);
-            System.out.println("Fecha: " + formattedDate);
             return formattedDate;
         }
 
         private String getRegisterHourText(Date date) {
             SimpleDateFormat timeFormat = new SimpleDateFormat("E hh:mm a", new Locale("es", "ES"));
             String formattedTime = timeFormat.format(date);
-            System.out.println("Hora: " + formattedTime);
             return formattedTime;
         }
 
@@ -91,6 +97,10 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
 
         private String getKmsTraveledText(float kmsTraveled) {
             return String.valueOf((float) Math.round((kmsTraveled) * 100) / 100);
+        }
+
+        public int getRegisterId() {
+            return registerId;
         }
     }
 }

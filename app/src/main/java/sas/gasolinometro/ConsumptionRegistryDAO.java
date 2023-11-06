@@ -1,6 +1,7 @@
 package sas.gasolinometro;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -14,5 +15,9 @@ public interface ConsumptionRegistryDAO {
     void insert(ConsumptionRegister consumptionRegister);
 
     @Query("SELECT * FROM consumption_registry ORDER BY date DESC LIMIT 1")
-    ConsumptionRegister getLatestUser();
+    ConsumptionRegister getLatestRegister();
+
+    @Delete
+    void deleteRegister(ConsumptionRegister consumptionRegister);
+
 }

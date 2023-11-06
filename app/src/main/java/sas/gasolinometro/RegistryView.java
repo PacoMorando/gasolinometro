@@ -23,7 +23,7 @@ public class RegistryView {
 
     public RegistryView(ActivityMainBinding binding) {
         this.registryController = new RegistryController(binding.getMainActivity().getApplicationContext());
-        this.consumptionRegistryRecyclerAdapter = new ConsumptionRegistryRecyclerAdapter(this.registryController.getConsumptionRegistries());
+        this.consumptionRegistryRecyclerAdapter = new ConsumptionRegistryRecyclerAdapter(this.registryController);
         this.layoutManager = new LinearLayoutManager(binding.getMainActivity().getApplicationContext());
         this.context = binding.getMainActivity().getApplicationContext();
         this.binding = binding;
@@ -35,7 +35,7 @@ public class RegistryView {
     private void setVehicleKms() {
         this.binding.vehicleKms.setText(this.registryController.getPreviousVehicleKms() + context.getString(R.string.length_unit));
         this.binding.vehicleKms.setOnClickListener(
-                view -> new VehicleKmsDialog(this.binding.vehicleKms, this.registryController).show(binding.getMainActivity().getSupportFragmentManager(), "setVehicleKms")
+                view -> new VehicleKmsDialog(this.binding.vehicleKms, this.binding.currentVehicleKms, this.registryController).show(binding.getMainActivity().getSupportFragmentManager(), "setVehicleKms")
         );
     }
 
@@ -48,9 +48,11 @@ public class RegistryView {
     }
 
     private void setCurrentVehicleInputHelper() {
-        if (this.registryController.getPreviousVehicleKms() > 1000) {
+        if (this.registryController.getPreviousVehicleKms() >= 1000) {
             this.binding.currentVehicleKms.setText(String.valueOf((int) this.registryController.getPreviousVehicleKms() / 1000));
             this.binding.currentVehicleKms.setSelection(this.binding.currentVehicleKms.getText().length());
+        } else {
+            this.binding.currentVehicleKms.getText().clear();
         }
     }
 
@@ -72,12 +74,12 @@ public class RegistryView {
 
     private boolean isRegisterValid() {
         if (String.valueOf(this.binding.fuelLoaded.getText()).equals("")) {
-            Toast.makeText(this.context, "Te faltó la gasolina ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context, this.context.getString(R.string.gas_loaded_missing), Toast.LENGTH_SHORT).show();
             this.binding.fuelLoaded.requestFocus();
             return false;
         }
         if (String.valueOf(this.binding.currentVehicleKms.getText()).equals("")) {
-            Toast.makeText(this.context, "Te faltó el kilometraje ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this.context, this.context.getString(R.string.vehicle_length_missing), Toast.LENGTH_SHORT).show();
             this.binding.currentVehicleKms.requestFocus();//TODO Programar que el teclado no se esconda
             return false;
         }

@@ -23,13 +23,13 @@ public class RegistryView {
 
     public RegistryView(ActivityMainBinding binding) {
         this.registryController = new RegistryController(binding.getMainActivity().getApplicationContext());
-       this.consumptionRegistryRecyclerAdapter = new ConsumptionRegistryRecyclerAdapter(this.registryController.getConsumptionRegistries());
+        this.consumptionRegistryRecyclerAdapter = new ConsumptionRegistryRecyclerAdapter(this.registryController.getConsumptionRegistries());
         this.layoutManager = new LinearLayoutManager(binding.getMainActivity().getApplicationContext());
         this.context = binding.getMainActivity().getApplicationContext();
         this.binding = binding;
-        this.setForm();
         this.setVehicleKms();
         this.setConsumptionRegistryResView();
+        this.setForm();
     }
 
     private void setVehicleKms() {
@@ -44,6 +44,14 @@ public class RegistryView {
             this.createRegister();
             return false;
         });
+        this.setCurrentVehicleInputHelper();
+    }
+
+    private void setCurrentVehicleInputHelper() {
+        if (this.registryController.getPreviousVehicleKms() > 1000) {
+            this.binding.currentVehicleKms.setText(String.valueOf((int) this.registryController.getPreviousVehicleKms() / 1000));
+            this.binding.currentVehicleKms.setSelection(this.binding.currentVehicleKms.getText().length());
+        }
     }
 
     private void createRegister() {
@@ -59,7 +67,7 @@ public class RegistryView {
     private void clearForm() {
         this.binding.fuelLoaded.requestFocus();
         this.binding.fuelLoaded.getText().clear();
-        this.binding.currentVehicleKms.getText().clear();
+        this.setCurrentVehicleInputHelper();
     }
 
     private boolean isRegisterValid() {
@@ -81,11 +89,8 @@ public class RegistryView {
     }
 
     private void setConsumptionRegistryResView() {
-       this.layoutManager.setReverseLayout(true);
-        //this.layoutManager.scrollToPosition(0);
-        //this.layoutManager.scrollToPosition(this.registryController.getConsumptionRegistries().size()-1);
         this.binding.consumptionRegistryResView.setLayoutManager(this.layoutManager);
         this.binding.consumptionRegistryResView.setAdapter(this.consumptionRegistryRecyclerAdapter);
-        this.binding.consumptionRegistryResView.scrollToPosition(this.registryController.getConsumptionRegistries().size()-1);
+        this.binding.consumptionRegistryResView.scrollToPosition(0);
     }
 }

@@ -21,10 +21,8 @@ public class RegistryController {
     private void setPreviousVehicleKms() {
         if (this.consumptionRegistryDAO.getLatestUser() != null) {
             this.previousVehicleKms = this.consumptionRegistryDAO.getLatestUser().getCurrentVehicleKms();
-            System.out.println(this.consumptionRegistryDAO.getLatestUser().getCurrentVehicleKms() + "TEEEEEEEEEEEEEEEEEEEEEEEEEST");
         } else {
             this.previousVehicleKms = 0.0f;
-            System.out.println("NO HAY REGISTROS !!!!!!!!!!!!!!!!!!!!!!!");
         }
     }
 
@@ -34,7 +32,7 @@ public class RegistryController {
                 .setCurrentVehicleKms(currentVehicleKms)
                 .setPreviousVehicleKms(this.previousVehicleKms)
                 .build();
-        this.consumptionRegistries.add(consumptionRegister);
+        this.consumptionRegistries.add(0, consumptionRegister);
         this.consumptionRegistryDAO.insert(consumptionRegister);
         this.previousVehicleKms = currentVehicleKms;
     }

@@ -20,7 +20,7 @@ public class RegistryController {
         this.setPreviousVehicleKms();
     }
 
-    private void setPreviousVehicleKms() {
+    public void setPreviousVehicleKms() {
         if (this.consumptionRegistryDAO.getLatestRegister() != null) {
             this.previousVehicleKms = this.consumptionRegistryDAO.getLatestRegister().getCurrentVehicleKms();
         } else {

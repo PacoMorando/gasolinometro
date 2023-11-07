@@ -16,10 +16,12 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<ConsumptionRegistryRecyclerAdapter.ViewHolder> implements DeleteConfirmDialog.RegisterDeleter {
+    private final ViewUpdater viewUpdater;
     private final RegistryController registryController;
     private final ArrayList<ConsumptionRegister> consumptionRegistries;
 
-    public ConsumptionRegistryRecyclerAdapter(RegistryController registryController) {
+    public ConsumptionRegistryRecyclerAdapter(ViewUpdater viewUpdater, RegistryController registryController) {
+        this.viewUpdater = viewUpdater;
         this.registryController = registryController;
         this.consumptionRegistries = registryController.getConsumptionRegistries();
     }
@@ -36,10 +38,6 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
         holder.setViewHolder(this.consumptionRegistries.get(position));
         holder.itemView.setOnLongClickListener(view -> {
             new DeleteConfirmDialog(this, holder).show(((AppCompatActivity) holder.itemView.getContext()).getSupportFragmentManager(), "Delete");
-            /*this.registryController.deleteRegister(this.consumptionRegistries.get(position));
-            this.consumptionRegistries.remove(this.consumptionRegistries.get(position));
-            this.notifyDataSetChanged();*/
-
             return false;
         });
     }
@@ -54,10 +52,11 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
         this.registryController.deleteRegister(this.consumptionRegistries.get(position));
         this.consumptionRegistries.remove(this.consumptionRegistries.get(position));
         this.notifyDataSetChanged();
+        this.registryController.setPreviousVehicleKms();
+        this.viewUpdater.updateViews();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private int registerId;
         private final HashMap<String, TextView> registryData;
 
         public ViewHolder(@NonNull View itemView) {
@@ -72,7 +71,6 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
         }
 
         public void setViewHolder(ConsumptionRegister consumptionRegister) {
-            this.registerId = consumptionRegister.getId();
             this.registryData.get("lastLoad").setText(this.getGasLoadedText(consumptionRegister.getGasLoaded()));
             this.registryData.get("vehicleKms").setText(this.getCurrentVehicleKmsText(consumptionRegister.getCurrentVehicleKms()));
             this.registryData.get("registerDate").setText(this.getRegisterDateText(consumptionRegister.getDate()));
@@ -107,10 +105,6 @@ public class ConsumptionRegistryRecyclerAdapter extends RecyclerView.Adapter<Con
 
         private String getKmsTraveledText(float kmsTraveled) {
             return String.valueOf((float) Math.round((kmsTraveled) * 100) / 100);
-        }
-
-        public int getRegisterId() {
-            return registerId;
         }
 
         public CharSequence getDate() {

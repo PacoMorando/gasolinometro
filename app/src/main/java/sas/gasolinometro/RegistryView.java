@@ -1,19 +1,13 @@
 package sas.gasolinometro;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 import sas.gasolinometro.databinding.ActivityMainBinding;
 
-public class RegistryView {
+public class RegistryView implements ViewUpdater{
     private final ActivityMainBinding binding;
     private final RegistryController registryController;
     private final ConsumptionRegistryRecyclerAdapter consumptionRegistryRecyclerAdapter;
@@ -23,7 +17,7 @@ public class RegistryView {
 
     public RegistryView(ActivityMainBinding binding) {
         this.registryController = new RegistryController(binding.getMainActivity().getApplicationContext());
-        this.consumptionRegistryRecyclerAdapter = new ConsumptionRegistryRecyclerAdapter(this.registryController);
+        this.consumptionRegistryRecyclerAdapter = new ConsumptionRegistryRecyclerAdapter(this, this.registryController);
         this.layoutManager = new LinearLayoutManager(binding.getMainActivity().getApplicationContext());
         this.context = binding.getMainActivity().getApplicationContext();
         this.binding = binding;
@@ -35,7 +29,7 @@ public class RegistryView {
     private void setVehicleKms() {
         this.binding.vehicleKms.setText(this.registryController.getPreviousVehicleKms() + context.getString(R.string.length_unit));
         this.binding.vehicleKms.setOnClickListener(
-                view -> new VehicleKmsDialog(this.binding.vehicleKms, this.binding.currentVehicleKms, this.registryController).show(binding.getMainActivity().getSupportFragmentManager(), "setVehicleKms")
+                view -> new VehicleKmsDialog(this, this.registryController).show(binding.getMainActivity().getSupportFragmentManager(), "setVehicleKms")
         );
     }
 
@@ -94,5 +88,11 @@ public class RegistryView {
         this.binding.consumptionRegistryResView.setLayoutManager(this.layoutManager);
         this.binding.consumptionRegistryResView.setAdapter(this.consumptionRegistryRecyclerAdapter);
         this.binding.consumptionRegistryResView.scrollToPosition(0);
+    }
+
+    @Override
+    public void updateViews() {
+        this.binding.vehicleKms.setText(this.registryController.getPreviousVehicleKms() + context.getString(R.string.length_unit));
+        this.setCurrentVehicleInputHelper();
     }
 }

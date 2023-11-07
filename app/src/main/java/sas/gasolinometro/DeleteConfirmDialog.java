@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class DeleteConfirmDialog extends AppCompatDialogFragment {
-    private RegisterDeleter registerDeleter;
+    private final RegisterDeleter registerDeleter;
     private final ConsumptionRegistryRecyclerAdapter.ViewHolder holder;
     public DeleteConfirmDialog(RegisterDeleter registerDeleter, ConsumptionRegistryRecyclerAdapter.ViewHolder holder) {
         this.registerDeleter = registerDeleter;
@@ -28,7 +28,6 @@ public class DeleteConfirmDialog extends AppCompatDialogFragment {
                 .setNeutralButton(getString(R.string.dialog_neutral), (dialogInterface, i) -> {
                 })
                 .setPositiveButton(R.string.dialog_ok, (dialogInterface, i) -> {
-                    System.out.println("PICASTE QUE SI LO QUERIAS BORRAR");
                     this.registerDeleter.deleteRegister(holder.getAdapterPosition());
                 });
         return builder.create();

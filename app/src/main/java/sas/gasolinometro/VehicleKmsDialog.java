@@ -14,14 +14,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class VehicleKmsDialog extends AppCompatDialogFragment {
-    private final TextView vehicleKms;
-    private final TextInputEditText currentVehicleKms;
+    private final ViewUpdater viewUpdater;
     private final RegistryController registryController;
 
-    //TODO Refactor by adding an interface to prevent a long parameter list
-    public VehicleKmsDialog(TextView vehicleKms, TextInputEditText currentVehicleKms, RegistryController registryController) {
-        this.vehicleKms = vehicleKms;
-        this.currentVehicleKms = currentVehicleKms;
+    public VehicleKmsDialog(ViewUpdater viewUpdater, RegistryController registryController) {
+        this.viewUpdater = viewUpdater;
         this.registryController = registryController;
     }
 
@@ -36,23 +33,13 @@ public class VehicleKmsDialog extends AppCompatDialogFragment {
                 .setPositiveButton(R.string.dialog_ok, (dialogInterface, i) -> {
                     System.out.println(setVehicleKms.getText());
                     this.setVehicleKms(String.valueOf(setVehicleKms.getText()));
-                    this.setCurrentVehicleInputHelper();
                 })
                 .setView(view);
         return builder.create();
     }
 
     private void setVehicleKms(String text) {
-        this.vehicleKms.setText(text + getString(R.string.length_unit));
         this.registryController.setPreviousVehicleKms(Float.valueOf(text));
-    }
-
-    private void setCurrentVehicleInputHelper() { //TODO Refactor by adding an interface to prevent repeat this code
-        if (this.registryController.getPreviousVehicleKms() >= 1000) {
-            this.currentVehicleKms.setText(String.valueOf((int) this.registryController.getPreviousVehicleKms() / 1000));
-            this.currentVehicleKms.setSelection(this.currentVehicleKms.getText().length());
-        } else {
-            this.currentVehicleKms.getText().clear();
-        }
+        this.viewUpdater.updateViews();
     }
 }

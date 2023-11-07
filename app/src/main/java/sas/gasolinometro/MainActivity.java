@@ -22,5 +22,4 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         this.binding.setMainActivity(this);
     }
-
 }

@@ -54,4 +54,30 @@ public class RegistryController {
     public void deleteRegister(ConsumptionRegister consumptionRegister) {
         this.consumptionRegistryDAO.deleteRegister(consumptionRegister);
     }
+
+    public int getNextLoad() {
+        return this.calculateNextLoad();
+    }
+
+    private int calculateNextLoad() {
+        int tankCapacity = 10;//TODO "10" is the tank capacity, refactor pending when tank capacity becomes editable
+        int averageSize = 3;//TODO "3" is for calculate an average taking more than the last consumption registry, to prevent variability of the consumption average. Refactor pending when average size becomes editable
+        float consumptionAverage = this.calculateConsumptionAverage(averageSize);
+        return (int) (this.previousVehicleKms + (consumptionAverage * tankCapacity));
+    }
+
+    private float calculateConsumptionAverage(int averageSize) {
+        float consumptionAverage = 0;
+        if (this.consumptionRegistries.size() < averageSize) {
+            if (this.consumptionRegistryDAO.getLatestRegister() == null) {
+                return consumptionAverage;
+            }
+            return (float) Math.floor(this.consumptionRegistryDAO.getLatestRegister().getConsumption());
+        }
+        for (int i = 0; i < averageSize; i++) {
+            consumptionAverage += this.consumptionRegistries.get(i).getConsumption();
+        }
+        consumptionAverage = (float) Math.floor(consumptionAverage / averageSize);//TODO Math.floor is for give a factor in the average, to prevent variability of the consumption average
+        return consumptionAverage;
+    }
 }

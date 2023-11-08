@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import sas.gasolinometro.databinding.ActivityMainBinding;
 
-public class RegistryView implements ViewUpdater{
+public class RegistryView implements ViewUpdater {
     private final ActivityMainBinding binding;
     private final RegistryController registryController;
     private final ConsumptionRegistryRecyclerAdapter consumptionRegistryRecyclerAdapter;
@@ -21,33 +21,26 @@ public class RegistryView implements ViewUpdater{
         this.layoutManager = new LinearLayoutManager(binding.getMainActivity().getApplicationContext());
         this.context = binding.getMainActivity().getApplicationContext();
         this.binding = binding;
-        this.setVehicleKms();
-        this.setConsumptionRegistryResView();
-        this.setForm();
+        this.setViews();
     }
 
-    private void setVehicleKms() {
-        this.binding.vehicleKms.setText(this.registryController.getPreviousVehicleKms() + context.getString(R.string.length_unit));
+    private void setViews() {
+        this.setConsumptionRegistryResView();
         this.binding.vehicleKms.setOnClickListener(
                 view -> new VehicleKmsDialog(this, this.registryController).show(binding.getMainActivity().getSupportFragmentManager(), "setVehicleKms")
         );
-    }
-
-    private void setForm() {
         this.binding.currentVehicleKms.setOnEditorActionListener((textView, i, keyEvent) -> {
             this.createRegister();
+            this.updateViews();
             return false;
         });
-        this.setCurrentVehicleInputHelper();
+        this.updateViews();
     }
 
-    private void setCurrentVehicleInputHelper() {
-        if (this.registryController.getPreviousVehicleKms() >= 1000) {
-            this.binding.currentVehicleKms.setText(String.valueOf((int) this.registryController.getPreviousVehicleKms() / 1000));
-            this.binding.currentVehicleKms.setSelection(this.binding.currentVehicleKms.getText().length());
-        } else {
-            this.binding.currentVehicleKms.getText().clear();
-        }
+    private void setConsumptionRegistryResView() {
+        this.binding.consumptionRegistryResView.setLayoutManager(this.layoutManager);
+        this.binding.consumptionRegistryResView.setAdapter(this.consumptionRegistryRecyclerAdapter);
+        this.binding.consumptionRegistryResView.scrollToPosition(0);
     }
 
     private void createRegister() {
@@ -58,12 +51,6 @@ public class RegistryView implements ViewUpdater{
             this.consumptionRegistryRecyclerAdapter.notifyDataSetChanged();
             this.clearForm();
         }
-    }
-
-    private void clearForm() {
-        this.binding.fuelLoaded.requestFocus();
-        this.binding.fuelLoaded.getText().clear();
-        this.setCurrentVehicleInputHelper();
     }
 
     private boolean isRegisterValid() {
@@ -80,19 +67,29 @@ public class RegistryView implements ViewUpdater{
         return true;
     }
 
-    private float formattedValue(String value) {
-        return (float) Math.round(Float.parseFloat(value) * 1000) / 1000;
+    private void clearForm() {
+        this.binding.fuelLoaded.requestFocus();
+        this.binding.fuelLoaded.getText().clear();
+        this.setCurrentVehicleInputHelper();
     }
 
-    private void setConsumptionRegistryResView() {
-        this.binding.consumptionRegistryResView.setLayoutManager(this.layoutManager);
-        this.binding.consumptionRegistryResView.setAdapter(this.consumptionRegistryRecyclerAdapter);
-        this.binding.consumptionRegistryResView.scrollToPosition(0);
+    private void setCurrentVehicleInputHelper() {
+        if (this.registryController.getPreviousVehicleKms() >= 1000) {
+            this.binding.currentVehicleKms.setText(String.valueOf((int) this.registryController.getPreviousVehicleKms() / 1000));
+            this.binding.currentVehicleKms.setSelection(this.binding.currentVehicleKms.getText().length());
+        } else {
+            this.binding.currentVehicleKms.getText().clear();
+        }
     }
 
     @Override
     public void updateViews() {
         this.binding.vehicleKms.setText(this.registryController.getPreviousVehicleKms() + context.getString(R.string.length_unit));
+        this.binding.nextLoad.setText(this.registryController.getNextLoad() + "km");
         this.setCurrentVehicleInputHelper();
+    }
+
+    private float formattedValue(String value) {
+        return (float) Math.round(Float.parseFloat(value) * 1000) / 1000;
     }
 }

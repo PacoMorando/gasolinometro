@@ -26,7 +26,7 @@ public class RegistryView implements ViewUpdater {
 
     private void setViews() {
         this.setConsumptionRegistryResView();
-        this.binding.vehicleKms.setOnClickListener(
+        this.binding.setKmButton.setOnClickListener(
                 view -> new VehicleKmsDialog(this, this.registryController).show(binding.getMainActivity().getSupportFragmentManager(), "setVehicleKms")
         );
         this.binding.currentVehicleKms.setOnEditorActionListener((textView, i, keyEvent) -> {
